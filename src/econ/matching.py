@@ -17,10 +17,10 @@ almost none. Under the usual overlap and selection-on-observables conditions,
 the reweighted control group has the same covariate distribution as the treated
 group, and the comparison is between like and like.
 
-Whether it worked is a factual question with a factual answer, so
-``balance_table`` reports the standardised difference on every covariate before
-and after. Those numbers go in the report; a covariate still out of balance
-after weighting is a caveat, not something to be quiet about.
+``balance_table`` reports the standardised difference on every covariate
+before and after weighting, and those numbers go into the report. A covariate
+still out of balance afterwards is a limitation of the estimate and is stated
+as one.
 """
 from __future__ import annotations
 

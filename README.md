@@ -1,12 +1,12 @@
 # Airline merger screens: do they predict which routes get more expensive?
 
-I measured what happened to fares after five US airline mergers, then checked
-whether the tools antitrust agencies use to flag routes *before* a merger would
-have picked out the routes where fares actually rose.
+A merger retrospective covering five US airline mergers, used to test one
+question: whether the screens antitrust agencies run before a deal pick out the
+routes where fares actually rose afterwards.
 
 The data is the Department of Transportation's Origin and Destination Survey
-(DB1B), a 10% sample of every domestic ticket sold: 344 million records over 60
-quarters, 2005 to 2019. I estimate the fare effects with a stacked
+(DB1B), a 10% sample of every domestic ticket sold: 350 million records over 60
+quarters, 2005 to 2019. I measure the fare effects with a stacked
 difference-in-differences design, and generate the predictions with a merger
 simulation built from scratch: demand estimation, cost recovery, and a Bertrand
 pricing equilibrium.
@@ -260,7 +260,7 @@ grey.
 |---|---|
 | Source | US DOT Bureau of Transportation Statistics, Airline Origin and Destination Survey (DB1B), Market file |
 | Window | 60 quarters, 2005Q1 to 2019Q4 |
-| Volume | 344 million ticket records, 5.2 GB downloaded |
+| Volume | 350 million ticket records, 5.3 GB downloaded |
 | After filtering | 19,189 routes, 696,963 route-quarters, 2.3 million carrier-route-quarters |
 | Overlap routes | 8,009 across five mergers |
 | Deflator | CPI-U from FRED; fares in constant 2019 dollars |
@@ -375,7 +375,7 @@ so run the stages directly:
 ```
 
 then `02_pull_macro.py` through `12_memo.py` in order. The pull takes about
-forty minutes and 5.2 GB; everything after it runs in a few minutes. The two
+forty minutes and 5.3 GB; everything after it runs in a few minutes. The two
 large panels and the raw quarterly files are not in the repository, since stage 4
 rebuilds them, but every analysis output behind the numbers above is committed.
 The numbers can be checked without running the pull.

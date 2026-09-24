@@ -21,7 +21,7 @@ Three of the five return a price coefficient of the wrong sign: `z_hausman`, `z_
 
 Of the two that come back with the right sign, only the cost instrument has an exclusion restriction worth defending. `z_rival_nonstop` survives this particular test but is still a market-structure instrument, and the entry argument applies to it whether or not it happens to fail here. It is not used.
 
-The cost instrument is much the weakest in the first stage - F = 23, against 707 for the next weakest and thousands for some of the rest - and the only one whose validity survives the argument. That trade is the one every applied paper is really making, and it is usually made quietly.
+The cost instrument is much the weakest in the first stage - F = 23, against 707 for the next weakest and thousands for some of the rest - and the only one whose validity survives the argument. Strength and validity are separate properties, and here they point in opposite directions.
 
 ## The estimate that survives
 

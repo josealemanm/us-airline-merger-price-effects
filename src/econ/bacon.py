@@ -15,14 +15,13 @@ Three kinds of comparison show up:
 
 The third kind is the problem. If the earlier merger's effect is still growing
 when the later merger closes, that growth enters the control group's change and
-is subtracted from the later merger's estimate, with a negative sign. The point
-of running this decomposition is to report how much weight sits on those
-comparisons instead of asserting that it is small.
+is subtracted from the later merger's estimate, with a negative sign. Running
+the decomposition measures how much weight sits on those comparisons instead of
+assuming it is small.
 
 The implementation computes the weights from Theorem 1, normalises them, and
-then checks the decomposition against the actual regression coefficient. If the
-two do not agree the function raises rather than returning a number nobody
-should trust.
+checks the decomposition against the actual regression coefficient. If the two
+do not agree the function raises.
 """
 from __future__ import annotations
 

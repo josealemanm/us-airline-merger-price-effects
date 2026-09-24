@@ -42,8 +42,8 @@ the endogeneity argument predicts. It is still too small: the implied median
 own-price elasticity (reported by the script) sits above minus one in absolute
 terms, and a profit-maximising firm never prices
 where its own demand is inelastic: the first-order condition would put marginal
-cost below zero. The estimate is admissible as a regression coefficient and
-inadmissible as a demand system.
+cost below zero. It is a usable regression coefficient and an unusable demand
+system.
 
 **On what stage 8 therefore runs on.** The price coefficient is calibrated to
 hit a target own-price elasticity taken from the published airline demand
@@ -327,8 +327,8 @@ def main() -> int:
     L += [f"The cost instrument is much the weakest in the first stage - "
           f"F = {cost_F:,.0f}, against {next_weakest:,.0f} for the next weakest "
           "and thousands for some of the rest - and the only one whose validity "
-          "survives the argument. That trade is the one every applied paper is "
-          "really making, and it is usually made quietly.", ""]
+          "survives the argument. Strength and validity are separate properties, "
+          "and here they point in opposite directions.", ""]
 
     L += ["## The estimate that survives", "",
           "| | alpha, per $100 | implied median own-price elasticity |",
