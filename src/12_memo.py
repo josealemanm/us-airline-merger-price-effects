@@ -60,7 +60,11 @@ def main() -> int:
     g = slopes["guppi_wavg"]
     h = slopes["delta_hhi"]
     hhi_bins = val["bins"]["delta_hhi"]
-    n_bad = sum(1 for r in dem["instrument_audit"] if r.get("valid") is False)
+    _spell = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    _bad = sum(1 for r in dem["instrument_audit"] if r.get("valid") is False)
+    _tot = sum(1 for r in dem["instrument_audit"] if r.get("valid") is not None)
+    n_bad = _spell.get(_bad, _bad)
+    n_tot = _spell.get(_tot, _tot)
     gup_bins = val["bins"]["guppi_wavg"]
 
     S.apply()
@@ -151,7 +155,7 @@ ones. Pre-merger coefficients are individually indistinguishable from zero. A
 wild cluster bootstrap gives p = {did['wild_bootstrap']['p_value']:.3f}.
 
 Two limits matter. First, the demand system could not be estimated credibly:
-{n_bad} of the five candidate instruments return a price coefficient of the wrong
+{n_bad} of the {n_tot} candidate instruments return a price coefficient of the wrong
 sign, because entry responds to demand, and the only instrument with a
 defensible exclusion restriction implies inelastic firm-level demand that no
 profit-maximising carrier could be pricing against. The price coefficient used in the simulation is therefore
