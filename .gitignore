@@ -19,3 +19,4 @@ data/processed/panel_carrier.parquet
 
 # Local logs
 reports/*_run.log
+reports/chain.log
