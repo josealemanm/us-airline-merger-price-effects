@@ -1,0 +1,21 @@
+# Virtual environment
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Raw and intermediate data. The pull stage rebuilds these from the DOT and
+# FRED APIs; data/raw/manifest.json is committed so a later run can prove it
+# read the same bytes.
+data/raw/*.parquet
+data/raw/*.zip
+data/raw/_scratch/
+data/raw/pull.log
+data/interim/*.parquet
+
+# The two large panels, 200 MB together. `make panel` rebuilds them.
+data/processed/panel_market.parquet
+data/processed/panel_carrier.parquet
+
+# Local logs
+reports/*_run.log
