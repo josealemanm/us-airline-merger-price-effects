@@ -60,6 +60,7 @@ def main() -> int:
     g = slopes["guppi_wavg"]
     h = slopes["delta_hhi"]
     hhi_bins = val["bins"]["delta_hhi"]
+    n_bad = sum(1 for r in dem["instrument_audit"] if r.get("valid") is False)
     gup_bins = val["bins"]["guppi_wavg"]
 
     S.apply()
@@ -150,10 +151,10 @@ ones. Pre-merger coefficients are individually indistinguishable from zero. A
 wild cluster bootstrap gives p = {did['wild_bootstrap']['p_value']:.3f}.
 
 Two limits matter. First, the demand system could not be estimated credibly:
-four of the five candidate instruments return a price coefficient of the wrong
-sign, because entry responds to demand, and the one valid cost instrument
-implies inelastic firm-level demand that no profit-maximising carrier could be
-pricing against. The price coefficient used in the simulation is therefore
+{n_bad} of the five candidate instruments return a price coefficient of the wrong
+sign, because entry responds to demand, and the only instrument with a
+defensible exclusion restriction implies inelastic firm-level demand that no
+profit-maximising carrier could be pricing against. The price coefficient used in the simulation is therefore
 calibrated to a target elasticity of {dem['calibrated']['target_elasticity']}, not estimated. Second, that
 calibration sets the level of every GUPPI and every simulated price change, but
 it barely moves their ordering across routes - the rank correlation across

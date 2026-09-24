@@ -213,19 +213,23 @@ on its own:
 
 ![Instrument audit](reports/figures/instruments.png)
 
-Four of the five return a price coefficient of the **wrong sign** — passengers
-buying more as the fare rises. The three market-structure instruments fail
-together and for one reason: entry responds to demand. A carrier adds a route
-when it expects the route to sell, so a positive demand shock brings in rivals,
-rivals push the fare down, and an instrument built on rival counts carries the
-very shock it was supposed to exclude. Their first-stage F statistics are in the
-hundreds and thousands. A strong instrument can be a completely invalid one, and
-the usual battery of diagnostics would not have caught this.
+Three of the five return a price coefficient of the **wrong sign** — passengers
+buying more as the fare rises. They fail together and for one reason: entry
+responds to demand. A carrier adds a route when it expects the route to sell, so
+a positive demand shock brings in rivals, rivals push the fare down, and an
+instrument built on rival counts carries the very shock it was supposed to
+exclude. Their first-stage F statistics are in the hundreds and thousands. A
+strong instrument can be a completely invalid one, and the usual battery of
+diagnostics would not have caught this.
 
-What survives is jet fuel prices interacted with route distance — a cost shifter
-with no demand story attached, and the weakest of the five in the first stage
-(F = 23). It gives a price coefficient of the right sign, larger than OLS,
-exactly as the endogeneity argument predicts. It also implies a median own-price
+Of the two that come back with the right sign, only one has an exclusion
+restriction worth defending: jet fuel prices interacted with route distance, a
+cost shifter with no demand story attached. It is much the weakest in the first
+stage — F = 23, against 707 for the next weakest — and it gives a price
+coefficient of the right sign, larger than OLS, exactly as the endogeneity
+argument predicts. The other survivor is rivals' nonstop service, which passes
+this particular test but is still a market-structure instrument with the same
+entry problem, so it is not used either. It also implies a median own-price
 elasticity of **−1.25**, and a profit-maximising firm never prices where its own
 demand is inelastic. As a demand system it is inadmissible: the Bertrand
 first-order condition would return a negative marginal cost.

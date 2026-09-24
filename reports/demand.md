@@ -17,9 +17,11 @@ Throwing five instruments into one regression and reading the overidentification
 | `z_n_nest_rivals` | number of rivals inside the carrier's own nest | 1,176 | -3.273 | +8.16 | **wrong sign** |
 | `z_rival_nonstop` | summed nonstop share of competitors | 707 | +0.794 | -1.98 | survives |
 
-The three market-structure instruments fail together and for one reason. Entry is a response to demand: a carrier adds a route when it expects the route to sell. A positive demand shock therefore brings in rivals, rivals push the fare down, and an instrument built on rival counts carries the very shock it was supposed to exclude. The Hausman instrument fails for the familiar reason - a carrier's demand shocks run across its own network, so its fares elsewhere are not independent of demand here.
+Three of the five return a price coefficient of the wrong sign: `z_hausman`, `z_n_rivals`, `z_n_nest_rivals`. They fail together and for one reason. Entry is a response to demand: a carrier adds a route when it expects the route to sell. A positive demand shock therefore brings in rivals, rivals push the fare down, and an instrument built on rival counts carries the very shock it was supposed to exclude. Where the Hausman instrument is among them, it fails for the familiar reason - a carrier's demand shocks run across its own network, so its fares elsewhere are not independent of demand here.
 
-The cost instrument is the weakest of the five in the first stage and the only one left standing. That trade is the one every applied paper is really making, and it is usually made quietly.
+Of the two that come back with the right sign, only the cost instrument has an exclusion restriction worth defending. `z_rival_nonstop` survives this particular test but is still a market-structure instrument, and the entry argument applies to it whether or not it happens to fail here. It is not used.
+
+The cost instrument is much the weakest in the first stage - F = 23, against 707 for the next weakest and thousands for some of the rest - and the only one whose validity survives the argument. That trade is the one every applied paper is really making, and it is usually made quietly.
 
 ## The estimate that survives
 

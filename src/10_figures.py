@@ -334,14 +334,23 @@ def instruments():
                 ha="left" if v >= 0 else "right", fontsize=9.5, color=S.INK_2)
     ax.set_yticks(y, lab, fontsize=9)
     ax.set_xlabel("implied price sensitivity (alpha)")
+    # Room on the left so the longest negative label does not sit on the axis.
+    lo, hi = min(a), max(a)
+    span = hi - lo
+    ax.set_xlim(lo - 0.22 * span, hi + 0.18 * span)
     ols = p["ols"]["alpha_per_100"]
     ax.axvline(ols, color=S.INK_2, lw=1.2, ls=(0, (4, 3)), zorder=4)
-    ax.annotate(f"OLS, {ols:+.2f}", xy=(ols, len(rows) - 0.4), fontsize=9,
-                color=S.INK_2, ha="center", va="bottom")
-    S.subtitle(ax, "Four of the five instruments return a price coefficient of "
-                   "the wrong sign",
+    ax.annotate(f"OLS, {ols:+.2f}", xy=(ols, -0.75), fontsize=9,
+                color=S.INK_2, ha="center", va="top", annotation_clip=False)
+    n_bad = sum(1 for r in rows if r["alpha"] <= 0)
+    words = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
+    spell = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    S.subtitle(ax, f"{words.get(n_bad, n_bad)} of the "
+                   f"{spell.get(len(rows), len(rows))} instruments "
+                   "return a price coefficient of the wrong sign",
                "A negative alpha says passengers buy more as the fare rises. "
-               "Only the cost instrument survives; the rest are invalid here "
+               "Only the cost instrument has an exclusion restriction worth "
+               "defending; the market-structure instruments are invalid here "
                "because entry responds to demand.")
     S.source(fig, "Plain logit, one instrument at a time, market, quarter and "
                   "carrier fixed effects. A large first-stage F does not rescue "

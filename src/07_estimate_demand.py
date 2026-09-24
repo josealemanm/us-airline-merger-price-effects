@@ -18,11 +18,11 @@ it was supposed to.
 2. Report the estimate that survives, including the respect in which it fails.
 3. Calibrate what the simulation actually runs on, and say so in the open.
 
-**On the instruments.** Five were built. Four are the ones the literature
-reaches for, and on this data four of them are invalid, in a way that shows up
-clearly once they are tested one at a time rather than thrown in together. The
-market-structure instruments - how many rivals a carrier faces, how many are in
-its own nest, how good they are - fail because entry is a response to demand.
+**On the instruments.** Five were built, and most of them do not survive being
+tested one at a time rather than thrown in together. How many fail is decided by
+the data and reported by the script rather than asserted here. The ones that do
+fail are the market-structure instruments - how many rivals a carrier faces, how
+many are in its own nest - and they fail because entry is a response to demand.
 Carriers add a route when they expect it to sell. So a positive demand shock
 brings in rivals, rivals push the fare down, and an instrument built on rival
 counts carries the demand shock it was supposed to exclude. Instrumenting with
@@ -38,8 +38,9 @@ restriction, which is the trade every applied paper is really making.
 
 **On what it returns.** Instrumented with the cost shifter alone, the price
 coefficient has the right sign and is larger than OLS, which is the direction
-the endogeneity argument predicts. It is still too small. It implies a median
-own-price elasticity of about -0.6, and a profit-maximising firm never prices
+the endogeneity argument predicts. It is still too small: the implied median
+own-price elasticity (reported by the script) sits above minus one in absolute
+terms, and a profit-maximising firm never prices
 where its own demand is inelastic: the first-order condition would put marginal
 cost below zero. The estimate is admissible as a regression coefficient and
 inadmissible as a demand system.
@@ -291,18 +292,43 @@ def main() -> int:
                    else ("survives" if row["valid"] else "**wrong sign**"))
         L.append(f"| `{z}` | {desc} | {F} | {row['alpha']:+.3f} | "
                  f"{row['elasticity']:+.2f} | {verdict} |")
+    failed = [r for r in audit if r["valid"] is False]
+    passed = [r for r in audit if r["valid"] is True]
+    n_all = len([r for r in audit if r["valid"] is not None])
+    words = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five"}
+    spell = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    fail_names = ", ".join(f"`{r['instrument']}`" for r in failed)
+    cost_F = next((r["first_stage_F"] for r in audit
+                   if r["instrument"] == COST_IV[0]), float("nan"))
+    others_F = [r["first_stage_F"] for r in audit
+                if np.isfinite(r["first_stage_F"])
+                and r["instrument"] not in COST_IV]
+    next_weakest = min(others_F) if others_F else float("nan")
     L += ["",
-          "The three market-structure instruments fail together and for one "
-          "reason. Entry is a response to demand: a carrier adds a route when "
-          "it expects the route to sell. A positive demand shock therefore "
+          f"{words.get(len(failed), len(failed))} of the "
+          f"{spell.get(n_all, n_all)} return a price "
+          f"coefficient of the wrong sign: {fail_names}. They fail together and "
+          "for one reason. Entry is a response to demand: a carrier adds a route "
+          "when it expects the route to sell. A positive demand shock therefore "
           "brings in rivals, rivals push the fare down, and an instrument built "
           "on rival counts carries the very shock it was supposed to exclude. "
-          "The Hausman instrument fails for the familiar reason - a carrier's "
-          "demand shocks run across its own network, so its fares elsewhere are "
-          "not independent of demand here.", "",
-          "The cost instrument is the weakest of the five in the first stage "
-          "and the only one left standing. That trade is the one every applied "
-          "paper is really making, and it is usually made quietly.", ""]
+          "Where the Hausman instrument is among them, it fails for the familiar "
+          "reason - a carrier's demand shocks run across its own network, so its "
+          "fares elsewhere are not independent of demand here.", ""]
+    if len(passed) > 1:
+        n_pass = spell.get(len(passed), len(passed))
+        others = ", ".join(f"`{r['instrument']}`" for r in passed
+                           if r["instrument"] != COST_IV[0])
+        L += [f"Of the {n_pass} that come back with the right sign, only the "
+              f"cost instrument has an exclusion restriction worth defending. "
+              f"{others} survives this particular test but is still a market-"
+              "structure instrument, and the entry argument applies to it "
+              "whether or not it happens to fail here. It is not used.", ""]
+    L += [f"The cost instrument is much the weakest in the first stage - "
+          f"F = {cost_F:,.0f}, against {next_weakest:,.0f} for the next weakest "
+          "and thousands for some of the rest - and the only one whose validity "
+          "survives the argument. That trade is the one every applied paper is "
+          "really making, and it is usually made quietly.", ""]
 
     L += ["## The estimate that survives", "",
           "| | alpha, per $100 | implied median own-price elasticity |",
