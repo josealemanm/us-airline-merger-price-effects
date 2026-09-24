@@ -29,16 +29,16 @@ merging carriers were already selling tickets, so the merger removes a
 competitor. I find 8,009 of them across the five deals.
 
 The 2023 Merger Guidelines rank those routes by concentration. Compute the
-**Herfindahl-Hirschman Index** — the sum of squared market shares, on a 0–10,000
-scale — before and after. If the merger leaves the route concentrated and raises
+**Herfindahl-Hirschman Index**, the sum of squared market shares on a 0–10,000
+scale, before and after. If the merger leaves the route concentrated and raises
 the index by more than 100 points, harm is presumed. That screen needs only
 passenger counts. It flags 74% of these routes.
 
-The alternative is **GUPPI** (gross upward pricing pressure): estimate how
+The alternative is **GUPPI** (gross upward pricing pressure). Estimate how
 passengers substitute between carriers, work out what share of the passengers
-priced off one merging carrier would switch to the other — the **diversion
-ratio** — and multiply by what those passengers were worth. Much more work, and
-it needs a demand model.
+priced off one merging carrier would switch to the other, and multiply by what
+those passengers were worth. That share is the **diversion ratio**. Much more
+work, and it needs a demand model.
 
 Both are predictions. I have fifteen years of data on what happened next.
 
@@ -89,8 +89,8 @@ ranked differently:
 
 A one-standard-deviation increase in GUPPI is worth 2.77 percentage points of
 realised fare increase. For the HHI increase the same figure is 0.24 points with
-a standard error of 0.20 — indistinguishable from zero (p = 0.25). Combined
-share points the wrong way.
+a standard error of 0.20, indistinguishable from zero (p = 0.25). Combined share
+points the wrong way.
 
 All of these use pre-merger data only. The information needed to rank the routes
 correctly was available at the time.
@@ -336,8 +336,8 @@ pulled from a package, so I know what every standard error is doing:
 83 tests, run in CI on every push.
 
 The estimators are checked against implementations I did not write. Coefficients
-*and* cluster-robust standard errors match `statsmodels` to eight decimal places
-— weighted and unweighted, one-way and two-way — and the IV estimator matches
+*and* cluster-robust standard errors match `statsmodels` to eight decimal
+places, weighted and unweighted, one-way and two-way. The IV estimator matches
 `linearmodels` to the same tolerance. `linearmodels` is a test dependency only;
 the pipeline never imports it.
 
@@ -376,9 +376,9 @@ so run the stages directly:
 
 then `02_pull_macro.py` through `12_memo.py` in order. The pull takes about
 forty minutes and 5.2 GB; everything after it runs in a few minutes. The two
-large panels and the raw quarterly files are not in the repository — stage 4
-rebuilds them — but every analysis output behind the numbers above is committed,
-so they can be checked without running the pull.
+large panels and the raw quarterly files are not in the repository, since stage 4
+rebuilds them, but every analysis output behind the numbers above is committed.
+The numbers can be checked without running the pull.
 
 ## Limits
 
