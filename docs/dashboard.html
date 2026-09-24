@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airline Merger Screens</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface: #fcfcfb; --panel: #ffffff; --line: #e6e5e1;
+    --ink: #0b0b0b; --ink2: #52514e; --muted: #9aa5ad;
+    --blue: #2a78d6; --orange: #eb6834; --aqua: #1baf7a; --zero: #b0413c;
+    --shadow: 0 1px 2px rgba(11,11,11,.06), 0 8px 24px rgba(11,11,11,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface: #1a1a19; --panel: #232322; --line: #383835;
+      --ink: #ffffff; --ink2: #c3c2b7; --muted: #8b8a82;
+      --blue: #3987e5; --orange: #d95926; --aqua: #199e70; --zero: #e66767;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #1a1a19; --panel: #232322; --line: #383835;
+    --ink: #ffffff; --ink2: #c3c2b7; --muted: #8b8a82;
+    --blue: #3987e5; --orange: #d95926; --aqua: #199e70; --zero: #e66767;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--surface); color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 48px 16px 80px; }
+  header { margin-bottom: 36px; }
+  .eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase;
+             color: var(--muted); font-weight: 600; }
+  h1 { font-size: clamp(26px, 4.4vw, 40px); line-height: 1.16; margin: 10px 0 14px;
+       letter-spacing: -.02em; font-weight: 700; }
+  .lede { font-size: 17px; color: var(--ink2); max-width: 66ch; margin: 0; }
+  h2 { font-size: 21px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .sub { color: var(--ink2); font-size: 14px; margin: 0 0 18px; max-width: 72ch; }
+  section { margin-top: 44px; }
+  .card { background: var(--panel); border: 1px solid var(--line);
+          border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+  .kpis { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .kpis { grid-template-columns: 1fr; } }
+  .kpi { background: var(--panel); border: 1px solid var(--line);
+         border-radius: 14px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .kpi .label { font-size: 12.5px; color: var(--ink2); min-height: 2.9em; }
+  .kpi .value { font-size: 30px; font-weight: 700; letter-spacing: -.02em;
+                margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .kpi .ci { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .pos { color: var(--blue); } .neg { color: var(--orange); } .nil { color: var(--muted); }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tick text { font-size: 11px; fill: var(--ink2); }
+  .tick line { stroke: var(--line); }
+  .axis-label { font-size: 12px; fill: var(--ink2); }
+  .tip { position: fixed; pointer-events: none; opacity: 0; transition: opacity .1s;
+         background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+         border-radius: 9px; padding: 8px 11px; font-size: 12.5px;
+         box-shadow: var(--shadow); z-index: 50; max-width: 260px;
+         font-variant-numeric: tabular-nums; }
+  .tip b { font-weight: 650; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px;
+          font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-weight: 600; color: var(--ink2); font-size: 12px;
+       text-transform: uppercase; letter-spacing: .05em; }
+  tr.hi td { background: color-mix(in srgb, var(--blue) 9%, transparent); }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12.5px;
+            color: var(--ink2); margin-top: 12px; }
+  .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+            margin-right: 6px; vertical-align: -1px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 800px) { .two { grid-template-columns: 1fr; } }
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line);
+           color: var(--muted); font-size: 13px; }
+  a { color: var(--blue); }
+  .toggle { position: fixed; top: 14px; right: 14px; background: var(--panel);
+            border: 1px solid var(--line); border-radius: 9px; padding: 7px 12px;
+            font-size: 12.5px; color: var(--ink2); cursor: pointer; z-index: 60; }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+</style>
+</head>
+<body>
+<button class="toggle" id="themeBtn">theme</button>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Merger retrospective &middot; DOT DB1B, 2005&ndash;2019</div>
+  <h1>The screens that flag airline mergers do not predict which routes got
+      more expensive. The ones nobody runs first do.</h1>
+  <p class="lede">Five US airline mergers, 7,936 routes where the merging
+     carriers overlapped, and 344 million ticket records. Every prediction
+     below is computed from information available before each deal closed, and
+     scored against what fares actually did afterwards.</p>
+</header>
+
+<section>
+  <div class="kpis" id="kpis"></div>
+</section>
+
+<section>
+  <h2>Fares rose &mdash; about five quarters late</h2>
+  <p class="sub">Effect on the average fare of an overlap route relative to
+     matched control routes, by quarter from the merger closing. The quarter
+     before closing is the omitted baseline. Grey where the 95% interval
+     covers zero.</p>
+  <div class="card"><div id="event"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--blue)"></i>interval clears zero</span>
+      <span><i class="swatch" style="background:var(--orange)"></i>a fall, clearing zero</span>
+      <span><i class="swatch" style="background:var(--muted)"></i>cannot be told from zero</span>
+    </div>
+    <p class="note">Nothing happens for four quarters. The single operating
+       certificate &mdash; the point at which two airlines become one for
+       regulatory and fare-setting purposes &mdash; lands four to six quarters
+       after closing. A retrospective that stopped at one year would have
+       found nothing.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The test: do the tools pick the right routes?</h2>
+  <p class="sub">Overlap routes sorted into deciles by each prediction, with
+     the average realised fare effect in each decile. A tool that works should
+     climb from left to right.</p>
+  <div class="two">
+    <div class="card"><div id="calHHI"></div>
+      <p class="note">The increase in HHI is the screen the 2023 Merger
+         Guidelines are built on. Across its whole range the realised effect is
+         flat.</p></div>
+    <div class="card"><div id="calGUPPI"></div>
+      <p class="note">GUPPI &mdash; the value of sales diverted to the merger
+         partner &mdash; needs demand estimation and is rarely the first thing
+         computed. It sorts the routes almost perfectly.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>How much information each prediction carries</h2>
+  <p class="sub">Change in the realised fare effect for a one-standard-deviation
+     increase in each prediction, with merger fixed effects and standard errors
+     clustered on the route.</p>
+  <div class="card"><div id="slopes"></div></div>
+</section>
+
+<section>
+  <h2>Merger by merger</h2>
+  <p class="sub">The same stacked design, one deal at a time, each against its
+     own matched controls.</p>
+  <div class="card"><div id="mergers"></div></div>
+</section>
+
+<section>
+  <h2>Where the line is drawn, and where it could be</h2>
+  <p class="sub">The Guidelines flag a merger when it raises HHI by more than
+     100 points in a concentrated market. This is what other thresholds would
+     have done on this data.</p>
+  <div class="card"><div id="thresh"></div></div>
+</section>
+
+<section>
+  <h2>Reading the numbers</h2>
+  <div class="card">
+    <p class="sub"><b>Overlap route.</b> A city pair where both merging carriers
+    each held at least 1% of passengers in the four quarters before the merger
+    was announced. Measured before the announcement, because carriers move
+    capacity once a deal is public.</p>
+    <p class="sub"><b>Control route.</b> A route where exactly one of the two
+    carriers was selling. Both groups get whatever the merger did to the
+    combined airline's costs and network; only overlap routes lose a
+    competitor. Controls are then matched to overlap routes on distance,
+    traffic, concentration, fare, nonstop share and pre-merger fare trend.</p>
+    <p class="sub"><b>HHI and its increase.</b> The sum of squared market shares
+    on a 0&ndash;10,000 scale. A merger of two firms raises it by twice the
+    product of their shares. It needs nothing but quantities, which is its
+    appeal and its limit.</p>
+    <p class="sub"><b>GUPPI.</b> The value of the sales a carrier diverts to its
+    merger partner when it raises its fare, as a fraction of that fare. It
+    requires a demand system, and the one used here is calibrated rather than
+    freely estimated &mdash; see the write-up on demand estimation. Its
+    <i>ranking</i> of routes is nearly invariant to that calibration; its level
+    is not.</p>
+    <p class="sub"><b>Realised effect.</b> The change in a route's average real
+    fare from the eight quarters before closing to quarters +5 through +12,
+    minus the same change on its matched controls.</p>
+  </div>
+</section>
+
+<footer>
+  Source: US DOT Bureau of Transportation Statistics, Airline Origin and
+  Destination Survey (DB1B), Market file, 2005Q1&ndash;2019Q4, with CPI-U and
+  Gulf Coast jet fuel from FRED. Fares in constant 2019 dollars.
+  <a href="https://github.com/josealemanm/us-airline-merger-price-effects">Code,
+  data pipeline and full write-ups on GitHub.</a>
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const DATA = {"kpis":[{"label":"Pooled two-way fixed effects, the estimator that should not be used here","value":"-2.41%","ci":"wrong sign; 14% of it uses already-merged routes as controls","kind":"neg"},{"label":"Stacked difference-in-differences, all five mergers","value":"+1.31%","ci":"95% [+0.42%, +2.19%]","kind":"pos"},{"label":"Once the carriers actually operate as one, quarters +5 to +12","value":"+2.28%","ci":"95% [+1.30%, +3.26%]","kind":"pos"},{"label":"Routes the structural presumption flags, against the routes it does not","value":"-0.71%","ci":"95% [-1.41%, -0.01%]","kind":"neg"}],"event":[{"k":-8,"coef":-0.010031458815994501,"ci_lo":-0.02566868018196165,"ci_hi":0.0056057625499726475},{"k":-7,"coef":0.006174239526005017,"ci_lo":-0.013628304828889227,"ci_hi":0.02597678388089926},{"k":-6,"coef":0.014995112064138153,"ci_lo":-0.0014219526830342877,"ci_hi":0.031412176811310595},{"k":-5,"coef":0.0034097490832894067,"ci_lo":-0.012874963744232418,"ci_hi":0.019694461910811232},{"k":-4,"coef":-0.006357514010134834,"ci_lo":-0.021113603949808775,"ci_hi":0.008398575929539109},{"k":-3,"coef":0.00222199578017491,"ci_lo":-0.012108856855718065,"ci_hi":0.016552848416067883},{"k":-2,"coef":0.006594215093141002,"ci_lo":-0.003656828217015533,"ci_hi":0.016845258403297536},{"k":-1,"coef":0.0,"ci_lo":0.0,"ci_hi":0.0},{"k":0,"coef":-0.016172465454868997,"ci_lo":-0.026285756658588004,"ci_hi":-0.0060591742511499885},{"k":1,"coef":-0.0035586607936598357,"ci_lo":-0.01688833398172187,"ci_hi":0.0097710123944022},{"k":2,"coef":0.005745480891662061,"ci_lo":-0.005839691068583718,"ci_hi":0.017330652851907838},{"k":3,"coef":0.008440668014610206,"ci_lo":-0.0027445198829326896,"ci_hi":0.0196258559121531},{"k":4,"coef":0.005254306116052872,"ci_lo":-0.008530967061575748,"ci_hi":0.019039579293681493},{"k":5,"coef":0.02375161797179029,"ci_lo":0.007054747527001092,"ci_hi":0.040448488416579484},{"k":6,"coef":0.02758703021627442,"ci_lo":0.014487910730551973,"ci_hi":0.04068614970199687},{"k":7,"coef":0.007021921679702629,"ci_lo":-0.006985274335777785,"ci_hi":0.021029117695183043},{"k":8,"coef":0.014757311364771267,"ci_lo":6.265050238968457e-05,"ci_hi":0.029451972227152852},{"k":9,"coef":0.03842897121745621,"ci_lo":0.02268913758739059,"ci_hi":0.05416880484752183},{"k":10,"coef":0.03884157835377074,"ci_lo":0.024521238114759793,"ci_hi":0.05316191859278168},{"k":11,"coef":0.024622024254578587,"ci_lo":0.010071104858897454,"ci_hi":0.03917294365025972},{"k":12,"coef":0.02320001171609576,"ci_lo":0.008029776415199776,"ci_hi":0.03837024701699174}],"bandStart":13,"bins":{"delta_hhi":[{"bin":1,"n":794,"realised":0.023104536751714838,"se":0.004921541043450748,"range":"2 to 37"},{"bin":2,"n":794,"realised":0.03208778372536153,"se":0.004907093371846268,"range":"37 to 76"},{"bin":3,"n":793,"realised":0.02212336918644896,"se":0.004726954811612963,"range":"76 to 122"},{"bin":4,"n":794,"realised":0.02401826898052188,"se":0.004969829312733868,"range":"122 to 180"},{"bin":5,"n":793,"realised":0.022136035564152695,"se":0.005239980251394684,"range":"180 to 252"},{"bin":6,"n":794,"realised":0.024909396212339393,"se":0.004968911548022695,"range":"252 to 355"},{"bin":7,"n":793,"realised":0.021324656983016586,"se":0.005053548182853645,"range":"355 to 526"},{"bin":8,"n":794,"realised":0.02280557560856445,"se":0.005257464385023435,"range":"526 to 816"},{"bin":9,"n":793,"realised":0.009062609215548642,"se":0.0058505906794750736,"range":"817 to 1,447"},{"bin":10,"n":794,"realised":0.017910577674096716,"se":0.0059010185782129064,"range":"1,449 to 4,972"}],"guppi_wavg":[{"bin":1,"n":787,"realised":-0.018945931819859006,"se":0.004795352492769285,"range":"0.01% to 0.28%"},{"bin":2,"n":787,"realised":-0.009865091152029213,"se":0.004990627726775649,"range":"0.28% to 0.45%"},{"bin":3,"n":786,"realised":-0.006919675099026707,"se":0.004825416488912288,"range":"0.45% to 0.64%"},{"bin":4,"n":787,"realised":0.02334828365162383,"se":0.005029704464423656,"range":"0.64% to 0.87%"},{"bin":5,"n":787,"realised":0.01639019187716382,"se":0.004899796174174417,"range":"0.87% to 1.17%"},{"bin":6,"n":786,"realised":0.010952631681006953,"se":0.004978429356408267,"range":"1.17% to 1.55%"},{"bin":7,"n":787,"realised":0.035136414629138114,"se":0.00510562903309316,"range":"1.55% to 2.20%"},{"bin":8,"n":786,"realised":0.0424157353621709,"se":0.0054900233752683625,"range":"2.20% to 3.36%"},{"bin":9,"n":787,"realised":0.04628009324928402,"se":0.005352523885344808,"range":"3.37% to 6.02%"},{"bin":10,"n":787,"realised":0.07915304909112393,"se":0.005636069787380514,"range":"6.02% to 87.65%"}]},"slopes":[{"label":"combined share of the parties","per_sd":-0.0058910032776302995,"se":0.001857368820288019,"rho":-0.059746571745162694},{"label":"increase in HHI","per_sd":0.002348018018963287,"se":0.002021775129980016,"rho":-0.016888125133860458},{"label":"simulated fare change","per_sd":0.021998114431320222,"se":0.0021731884077371305,"rho":0.11577991212129438},{"label":"diversion to the partner","per_sd":0.022576238762680768,"se":0.0018716965950334918,"rho":0.11824313323612322},{"label":"GUPPI","per_sd":0.02772485036116333,"se":0.0021749326062321297,"rho":0.1894576662523412}],"mergers":[{"label":"Delta / Northwest","coef":-0.017430675614820593,"ci_lo":-0.030913554072644893,"ci_hi":-0.003947797156996296,"n":3471},{"label":"United / Continental","coef":0.036495968020563506,"ci_lo":0.014718506433209395,"ci_hi":0.05827342960791762,"n":1626},{"label":"American / US Airways","coef":0.03776917518826891,"ci_lo":0.023703615760541204,"ci_hi":0.051834734615996615,"n":2143},{"label":"Alaska / Virgin America","coef":0.03914872917283405,"ci_lo":-0.01533601030157257,"ci_hi":0.09363346864724068,"n":16},{"label":"Southwest / AirTran","coef":0.058519801275655474,"ci_lo":0.03200078422901126,"ci_hi":0.08503881832229969,"n":290}],"thresholds":[{"threshold":50,"flagged":6899,"share":0.8693296370967742,"mean_in":0.021850308240889477,"mean_out":0.022612755869967482,"diff":-0.0007624476290780044},{"threshold":100,"flagged":5918,"share":0.7457157258064516,"mean_in":0.020308056478142274,"mean_out":0.026764928718239253,"diff":-0.006456872240096979},{"threshold":200,"flagged":4513,"share":0.5686743951612904,"mean_in":0.019431671639491034,"mean_out":0.02527010525329528,"diff":-0.0058384336138042475},{"threshold":300,"flagged":3534,"share":0.4453125,"mean_in":0.01891216379511068,"mean_out":0.02438871366177457,"diff":-0.005476549866663887},{"threshold":500,"flagged":2476,"share":0.3119959677419355,"mean_in":0.016122099935081038,"mean_out":0.024592744496665223,"diff":-0.008470644561584185},{"threshold":800,"flagged":1613,"share":0.20325100806451613,"mean_in":0.014421602447425057,"mean_out":0.02387041904845108,"diff":-0.009448816601026023},{"threshold":1200,"flagged":1051,"share":0.13243447580645162,"mean_in":0.014214094886987898,"mean_out":0.02313081926867516,"diff":-0.00891672438168726},{"threshold":2000,"flagged":478,"share":0.06023185483870968,"mean_in":0.017837673709069198,"mean_out":0.02221350179111259,"diff":-0.004375828082043391}]};
+
+const tip = document.getElementById('tip');
+function showTip(html, e) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + pad, y = e.clientY + pad;
+  if (x + w > innerWidth - 8) x = e.clientX - w - pad;
+  if (y + h > innerHeight - 8) y = e.clientY - h - pad;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+function hideTip() { tip.style.opacity = 0; }
+
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs = {}, parent = null) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+const fmtPct = v => (v >= 0 ? '+' : '') + (v * 100).toFixed(2) + '%';
+/* Grey when the interval covers zero; otherwise the sign picks the hue, so a
+   significant fall never reads the same as a significant rise. */
+function signColor(v, lo, hi) {
+  if (lo <= 0 && hi >= 0) return 'var(--muted)';
+  return v > 0 ? 'var(--blue)' : 'var(--orange)';
+}
+
+/* ---------------------------------------------------------------- KPIs */
+function kpis() {
+  const box = document.getElementById('kpis');
+  DATA.kpis.forEach(k => {
+    const d = document.createElement('div');
+    d.className = 'kpi';
+    const cls = k.kind || 'nil';
+    d.innerHTML = `<div class="label">${k.label}</div>
+      <div class="value ${cls}">${k.value}</div>
+      <div class="ci">${k.ci || ''}</div>`;
+    box.appendChild(d);
+  });
+}
+
+/* -------------------------------------------------- generic dot-and-CI plot */
+function dotPlot(mount, rows, opts) {
+  const W = opts.width || 940, H = opts.height || 330;
+  const M = opts.margin || { t: 16, r: 18, b: 44, l: 54 };
+  const iw = W - M.l - M.r, ih = H - M.t - M.b;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}` });
+  mount.innerHTML = ''; mount.appendChild(svg);
+  const g = el('g', { transform: `translate(${M.l},${M.t})` }, svg);
+
+  let y0, y1;
+  if (opts.domain) { [y0, y1] = opts.domain; }
+  else {
+    const lo = Math.min(0, ...rows.map(r => r.lo));
+    const hi = Math.max(0, ...rows.map(r => r.hi));
+    const padY = (hi - lo) * 0.10 || 0.01;
+    y0 = lo - padY; y1 = hi + padY;
+  }
+  const Y = v => ih - (v - y0) / (y1 - y0) * ih;
+  const n = rows.length;
+  const X = i => (n === 1 ? iw / 2 : (i + 0.5) * iw / n);
+
+  const step = niceStep(y1 - y0);
+  for (let v = Math.ceil(y0 / step) * step; v <= y1; v += step) {
+    const gg = el('g', { class: 'tick' }, g);
+    el('line', { x1: 0, x2: iw, y1: Y(v), y2: Y(v) }, gg);
+    el('text', { x: -10, y: Y(v) + 4, 'text-anchor': 'end' }, gg)
+      .textContent = (v >= 0 ? '+' : '') + (v * 100).toFixed(0) + '%';
+  }
+  el('line', { x1: 0, x2: iw, y1: Y(0), y2: Y(0),
+               stroke: 'var(--zero)', 'stroke-width': 1.3 }, g);
+  if (opts.band) {
+    const a = X(opts.band[0]) - iw / n / 2, b = X(opts.band[1]) + iw / n / 2;
+    el('rect', { x: a, y: 0, width: b - a, height: ih,
+                 fill: 'var(--blue)', opacity: .07 }, g);
+  }
+
+  rows.forEach((r, i) => {
+    const col = r.color || signColor(r.v, r.lo, r.hi);
+    el('line', { x1: X(i), x2: X(i), y1: Y(r.lo), y2: Y(r.hi), stroke: col,
+                 'stroke-width': 2.4, 'stroke-linecap': 'round' }, g);
+    const c = el('circle', { cx: X(i), cy: Y(r.v), r: 5, fill: col,
+                             stroke: 'var(--panel)', 'stroke-width': 1.6 }, g);
+    const hit = el('rect', { x: X(i) - iw / n / 2, y: 0, width: iw / n,
+                             height: ih, fill: 'transparent' }, g);
+    const html = `<b>${r.label}</b><br>${fmtPct(r.v)}
+        <span style="color:var(--muted)">[${fmtPct(r.lo)}, ${fmtPct(r.hi)}]</span>
+        ${r.note ? '<br>' + r.note : ''}`;
+    [c, hit].forEach(node => {
+      node.addEventListener('mousemove', e => showTip(html, e));
+      node.addEventListener('mouseleave', hideTip);
+    });
+    if (opts.everyTick ? i % opts.everyTick === 0 : true) {
+      el('text', { x: X(i), y: ih + 20, 'text-anchor': 'middle',
+                   class: 'axis-label' }, g).textContent = r.tick ?? r.label;
+    }
+  });
+  if (opts.xlab)
+    el('text', { x: iw / 2, y: ih + 40, 'text-anchor': 'middle',
+                 class: 'axis-label' }, g).textContent = opts.xlab;
+  return svg;
+}
+
+function niceStep(range) {
+  const raw = range / 5, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  return (norm >= 5 ? 5 : norm >= 2 ? 2 : 1) * mag;
+}
+
+/* ---------------------------------------------------- horizontal bar plot */
+function barPlot(mount, rows, opts) {
+  const W = opts.width || 940, rowH = 34;
+  const M = { t: 10, r: 120, b: 40, l: opts.labelWidth || 250 };
+  const ih = rows.length * rowH, H = ih + M.t + M.b;
+  const iw = W - M.l - M.r;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}` });
+  mount.innerHTML = ''; mount.appendChild(svg);
+  const g = el('g', { transform: `translate(${M.l},${M.t})` }, svg);
+
+  const lo = Math.min(0, ...rows.map(r => r.lo ?? r.v));
+  const hi = Math.max(0, ...rows.map(r => r.hi ?? r.v));
+  const pad = (hi - lo) * 0.08 || 0.01;
+  const X = v => (v - (lo - pad)) / ((hi + pad) - (lo - pad)) * iw;
+
+  el('line', { x1: X(0), x2: X(0), y1: 0, y2: ih,
+               stroke: 'var(--zero)', 'stroke-width': 1.3 }, g);
+
+  rows.forEach((r, i) => {
+    const y = i * rowH + rowH / 2;
+    const col = r.color || signColor(r.v, r.lo ?? r.v, r.hi ?? r.v);
+    if (r.lo !== undefined)
+      el('line', { x1: X(r.lo), x2: X(r.hi), y1: y, y2: y, stroke: col,
+                   'stroke-width': 2.6, 'stroke-linecap': 'round' }, g);
+    el('circle', { cx: X(r.v), cy: y, r: 5.5, fill: col,
+                   stroke: 'var(--panel)', 'stroke-width': 1.6 }, g);
+    el('text', { x: -12, y: y + 4, 'text-anchor': 'end', class: 'axis-label' }, g)
+      .textContent = r.label;
+    el('text', { x: iw + 12, y: y + 4, class: 'axis-label',
+                 fill: 'var(--ink)' }, g).textContent = r.right ?? fmtPct(r.v);
+    const hit = el('rect', { x: 0, y: i * rowH, width: iw, height: rowH,
+                             fill: 'transparent' }, g);
+    const html = `<b>${r.label}</b><br>${r.tipValue ?? fmtPct(r.v)}
+      ${r.lo !== undefined ? `<span style="color:var(--muted)"><br>[${fmtPct(r.lo)}, ${fmtPct(r.hi)}]</span>` : ''}
+      ${r.note ? '<br>' + r.note : ''}`;
+    hit.addEventListener('mousemove', e => showTip(html, e));
+    hit.addEventListener('mouseleave', hideTip);
+  });
+  if (opts.xlab)
+    el('text', { x: iw / 2, y: ih + 28, 'text-anchor': 'middle',
+                 class: 'axis-label' }, g).textContent = opts.xlab;
+}
+
+/* ------------------------------------------------------------------ table */
+function tableView(mount, cols, rows, highlight) {
+  const t = document.createElement('table');
+  t.innerHTML = '<thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') +
+    '</tr></thead><tbody>' + rows.map(r =>
+      `<tr class="${highlight && highlight(r) ? 'hi' : ''}">` +
+      r.map(v => `<td>${v}</td>`).join('') + '</tr>').join('') + '</tbody>';
+  mount.innerHTML = ''; mount.appendChild(t);
+}
+
+/* ------------------------------------------------------------------- draw */
+kpis();
+
+dotPlot(document.getElementById('event'), DATA.event.map(d => ({
+  label: `quarter ${d.k >= 0 ? '+' : ''}${d.k}`, tick: d.k,
+  v: d.coef, lo: d.ci_lo, hi: d.ci_hi,
+  note: d.k === -1 ? 'omitted baseline' : null,
+})), { xlab: 'quarters from the merger closing', everyTick: 2,
+       band: [DATA.bandStart, DATA.event.length - 1] });
+
+/* One shared y-range across both panels. Two charts meant to be compared must
+   not be drawn on different scales - the flat one would otherwise look as
+   dramatic as the climbing one. */
+const CAL_DOMAIN = (() => {
+  const all = ['delta_hhi', 'guppi_wavg'].flatMap(k => DATA.bins[k]
+    .flatMap(b => [b.realised - 1.96 * b.se, b.realised + 1.96 * b.se]));
+  const lo = Math.min(0, ...all), hi = Math.max(0, ...all);
+  const pad = (hi - lo) * 0.08;
+  return [lo - pad, hi + pad];
+})();
+function calChart(mountId, key, label) {
+  const rows = DATA.bins[key].map(b => ({
+    label: `decile ${b.bin}`, tick: b.bin, v: b.realised,
+    lo: b.realised - 1.96 * b.se, hi: b.realised + 1.96 * b.se,
+    note: `${b.n.toLocaleString()} routes<br>${label}: ${b.range}`,
+  }));
+  dotPlot(document.getElementById(mountId), rows,
+          { xlab: `decile of ${label}`, width: 470, height: 320,
+            margin: { t: 16, r: 14, b: 44, l: 48 }, everyTick: 3,
+            domain: CAL_DOMAIN });
+}
+calChart('calHHI', 'delta_hhi', 'the HHI increase');
+calChart('calGUPPI', 'guppi_wavg', 'GUPPI');
+
+barPlot(document.getElementById('slopes'), DATA.slopes.map(s => ({
+  label: s.label, v: s.per_sd, lo: s.per_sd - 1.96 * s.se,
+  hi: s.per_sd + 1.96 * s.se,
+  right: fmtPct(s.per_sd), note: `rank correlation ${s.rho.toFixed(3)}`,
+})), { xlab: 'realised fare effect per standard deviation of the prediction' });
+
+barPlot(document.getElementById('mergers'), DATA.mergers.map(m => ({
+  label: m.label, v: m.coef, lo: m.ci_lo, hi: m.ci_hi,
+  right: fmtPct(m.coef), note: `${m.n.toLocaleString()} overlap routes`,
+})), { xlab: 'effect on overlap-route fares' });
+
+tableView(document.getElementById('thresh'),
+  ['HHI increase above', 'routes flagged', 'share of routes',
+   'flagged', 'not flagged', 'difference'],
+  DATA.thresholds.map(t => [
+    t.threshold.toLocaleString() + (t.threshold === 100 ? ' (the Guidelines)' : ''),
+    t.flagged.toLocaleString(),
+    (t.share * 100).toFixed(0) + '%',
+    fmtPct(t.mean_in), fmtPct(t.mean_out), fmtPct(t.diff),
+  ]), r => String(r[0]).includes('Guidelines'));
+
+/* ------------------------------------------------------------------ theme */
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () => {
+  const now = document.documentElement.getAttribute('data-theme');
+  const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const next = now ? (now === 'dark' ? 'light' : 'dark')
+                   : (prefersDark ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+});
+try {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+} catch (e) {}
+</script>
+</body>
+</html>
