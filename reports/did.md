@@ -106,6 +106,18 @@ The same stacked specification, one merger at a time.
 | no matching, all clean controls | how much the control group choice matters | -0.11% [-1.26%, +1.05%] |
 | quarters +5 to +12 only | the effect once the carriers actually operate as one | +2.28% [+1.30%, +3.26%] |
 
+
+### The control group and the matching
+
+Two choices move this estimate more than anything else, and the damage comes from their combination rather than from either alone. Routes where neither merging carrier flew are shorter, thinner and served by different carriers than routes where both did; comparing the two without first making them comparable returns a fare *decrease*.
+
+| control group | without matching | with matching |
+|---|---|---|
+| routes where neither party flew | -2.63% [-4.11, -1.14] | +1.11% [-1.33, +3.55] |
+| routes where exactly one party flew | -0.11% [-1.26, +1.05] | **+1.31% [+0.42, +2.19]** |
+
+Matching alone brings the two control groups into agreement on sign. It does not make them equally informative: matching onto routes neither carrier served leaves few comparable controls and an interval more than twice as wide. The reported specification is the bottom-right cell.
+
 ## Does the effect grow with how much concentration rose?
 
 Overlap routes, grouped by the HHI increase the merger produced. The effect is measured route by route against that merger's controls over quarters +5 to +12, then averaged with passenger weights.

@@ -72,8 +72,9 @@ is not a statistical artefact; it is when airlines actually merge. Two carriers
 that have legally combined still fly under separate operating certificates, with
 separate reservation systems and separate fare filings, for four to six quarters
 afterwards. Until the certificates merge there is no single firm setting one
-price. **A retrospective that stopped at one year would have found nothing,**
-and a number of published airline retrospectives use windows that short.
+price. **A retrospective that stopped at one year would have found
+nothing:** every coefficient from the closing quarter through quarter +4
+lies between -1.6% and +0.8%.
 
 **The structural screen does not sort the routes.** This is the finding.
 
@@ -256,12 +257,14 @@ against routes where neither did, give **−0.04%** [−0.98%, +0.90%]. Neither
 group loses a competitor, so a large effect there would mean the design was
 picking up something other than the loss of competition. It finds nothing.
 
-**Pre-trends are flat.** Every coefficient before the merger is individually
-indistinguishable from zero, and the largest is 1.5%. The joint test across all
-of them does reject (p < 0.001), which is worth stating plainly: with 6,400
+**Pre-trends are close to flat, and the joint test still rejects.** Every
+coefficient before the merger is individually indistinguishable from zero and
+the largest is 1.5%, but the joint test across all of them rejects at p < 0.001.
+Both of those are true and the second is the one usually left out. With 6,400
 clusters the test has the power to detect very small deviations, and it is
-detecting one. The pre-period coefficients bounce rather than trend, but the
-design is not perfectly clean.
+detecting one. The pre-period coefficients bounce rather than trend, which is
+the pattern you want to see, but this design is not perfectly clean and the
+headline estimate should be read with that attached.
 
 **The result does not depend on the weighting.** Weighted by pre-merger traffic
 rather than counting routes equally, the estimate is +1.75% instead of +1.31%.
@@ -274,7 +277,7 @@ draws gives p = 0.003.
 | placebo on one-party routes | is the design picking up non-competitive effects? | −0.04% [−0.98%, +0.90%] |
 | wild cluster bootstrap | does the interval need the cluster count to be large? | p = 0.003 |
 | weighted by traffic | is this about the average route or the average passenger? | +1.75% |
-| no matching | how much does the control group choice matter? | −0.11% |
+| matching switched off | how much of the estimate is the matching doing? | −0.11% |
 | quarters +5 to +12 only | what happens once the carriers really are one firm? | +2.28% [+1.30%, +3.26%] |
 
 ## Reading the numbers
