@@ -10,7 +10,7 @@ Written by `src/09_screens_vs_outcomes.py`. 7,936 overlap routes, each with a pr
 | not flagged | 2,072 | +2.72% (0.30) |
 | **difference** | | **-0.71%** [-1.41%, -0.01%] |
 
-On this measure the presumption **separates** the routes where fares rose from the routes where they did not.
+On this measure the presumption **separates the two groups in the wrong direction.** The routes it flags saw *smaller* fare increases than the routes it passes over. A screen that is merely uninformative would put this difference at zero; this one is on the wrong side of it.
 
 ## How much information is in each prediction?
 
@@ -30,7 +30,9 @@ The slope column is only interpretable for the simulated fare change, where pred
 
 > Slope of realised on simulated: **+0.570** [+0.460, +0.681].
 
-Against the null that the simulation carries no information, p = 0.000. Against the null that it is correctly scaled, p = 0.000.
+Two nulls, and they give different answers. Against the null that the simulation carries no information, p = 0.000: it does. Against the null that it is correctly scaled, p = 0.000: it is not.
+
+A slope below one means the simulation over-predicts the size of the effect by roughly a factor of 1.8, while still ordering the routes correctly. That is the expected consequence of calibrating the price coefficient rather than estimating it, and it is the reason this report leans on orderings and deciles rather than on levels.
 
 ## Realised effect by decile of each prediction
 

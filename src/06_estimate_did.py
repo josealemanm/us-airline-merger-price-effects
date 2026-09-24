@@ -489,7 +489,28 @@ def main() -> int:
              f"choice matters | {ru.params[0]*100:+.2f}% "
              f"[{cu_[0]*100:+.2f}%, {cu_[1]*100:+.2f}%] |")
 
-    # (e) long-run window only
+    # (e) the control group and the matching, as a two-by-two
+    # These are the two decisions that move the answer most, so they are
+    # reported together rather than one at a time: the damage comes from their
+    # combination, not from either alone.
+    RESULTS["design_grid"] = []
+    for ctrl, mtch in [("neither", False), ("neither", True),
+                       ("one_party", False), ("one_party", True)]:
+        try:
+            gs = build_stack(mp, tr, control=ctrl, match=mtch)
+            gr = stacked_did(gs)
+            gc = gr.conf_int()[0]
+            RESULTS["design_grid"].append({
+                "control": ctrl, "matched": mtch,
+                "coef": float(gr.params[0]), "se": float(gr.se[0]),
+                "ci_lo": float(gc[0]), "ci_hi": float(gc[1]),
+                "n_treated": int(pd.Series(gs.unit[gs.treated == 1]).nunique()),
+                "n_control": int(pd.Series(gs.unit[gs.treated == 0]).nunique()),
+            })
+        except Exception as exc:  # noqa: BLE001
+            print(f"  design grid {ctrl}/{mtch} failed: {exc}")
+
+    # (f) long-run window only
     lr = stack.event_time >= LONGRUN[0]
     sel = (stack.event_time < 0) | lr
     sub = Stack(event=stack.event[sel], unit=stack.unit[sel],
@@ -506,6 +527,37 @@ def main() -> int:
              f"the carriers actually operate as one | {rl.params[0]*100:+.2f}% "
              f"[{cl_[0]*100:+.2f}%, {cl_[1]*100:+.2f}%] |")
     L.append("")
+
+    # ------------------------------- 6b. the two decisions that matter most
+    if RESULTS.get("design_grid"):
+        L += ["", "### The control group and the matching", "",
+              "Two choices move this estimate more than anything else, and the "
+              "damage comes from their combination rather than from either "
+              "alone. Routes where neither merging carrier flew are shorter, "
+              "thinner and served by different carriers than routes where both "
+              "did; comparing the two without first making them comparable "
+              "returns a fare *decrease*.", "",
+              "| control group | without matching | with matching |",
+              "|---|---|---|"]
+        grid = {(g["control"], g["matched"]): g for g in RESULTS["design_grid"]}
+        for ctrl, label in [("neither", "routes where neither party flew"),
+                            ("one_party", "routes where exactly one party flew")]:
+            cells = []
+            for m_ in (False, True):
+                g = grid.get((ctrl, m_))
+                if g is None:
+                    cells.append("not estimable")
+                    continue
+                bold = "**" if (ctrl == "one_party" and m_) else ""
+                cells.append(f"{bold}{g['coef']*100:+.2f}% "
+                             f"[{g['ci_lo']*100:+.2f}, {g['ci_hi']*100:+.2f}]{bold}")
+            L.append(f"| {label} | {cells[0]} | {cells[1]} |")
+        L += ["",
+              "Matching alone brings the two control groups into agreement on "
+              "sign. It does not make them equally informative: matching onto "
+              "routes neither carrier served leaves few comparable controls and "
+              "an interval more than twice as wide. The reported specification "
+              "is the bottom-right cell.", ""]
 
     # ------------------------------------------- 7. effect by concentration
     sc = pd.read_parquet(C.DATA_PROCESSED / "screens.parquet")

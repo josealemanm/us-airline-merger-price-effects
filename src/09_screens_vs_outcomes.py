@@ -217,9 +217,21 @@ def main() -> int:
          f"{f['out_mean']*100:+.2f}% ({f['out_se']*100:.2f}) |",
          f"| **difference** | | **{f['diff']*100:+.2f}%** "
          f"[{f['diff_lo']*100:+.2f}%, {f['diff_hi']*100:+.2f}%] |", ""]
-    sep = "separates" if abs(f["diff"]) > 1.96 * f["diff_se"] else "does not separate"
-    L += [f"On this measure the presumption **{sep}** the routes where fares "
-          "rose from the routes where they did not.", ""]
+    sig = abs(f["diff"]) > 1.96 * f["diff_se"]
+    if not sig:
+        verdict = ("**does not separate** the routes where fares rose from the "
+                   "routes where they did not: the difference between the two "
+                   "groups cannot be told from zero.")
+    elif f["diff"] > 0:
+        verdict = ("**separates** the two groups in the expected direction: "
+                   "routes it flags saw larger fare increases.")
+    else:
+        verdict = ("**separates the two groups in the wrong direction.** The "
+                   "routes it flags saw *smaller* fare increases than the "
+                   "routes it passes over. A screen that is merely uninformative "
+                   "would put this difference at zero; this one is on the wrong "
+                   "side of it.")
+    L += [f"On this measure the presumption {verdict}", ""]
 
     L += ["## How much information is in each prediction?", "",
           "Each row regresses the realised route-level effect on one "
@@ -244,12 +256,21 @@ def main() -> int:
 
     if "sim_dp_market" in RES["slopes"]:
         s = RES["slopes"]["sim_dp_market"]
+        scale = ("over-predicts" if s["slope"] < 1 else "under-predicts")
+        factor = (1 / s["slope"]) if s["slope"] > 0 else float("nan")
         L += ["## Is the merger simulation calibrated?", "",
               f"> Slope of realised on simulated: **{s['slope']:+.3f}** "
               f"[{s['ci_lo']:+.3f}, {s['ci_hi']:+.3f}].", "",
-              f"Against the null that the simulation carries no information, "
-              f"p = {s['p_zero']:.3f}. Against the null that it is correctly "
-              f"scaled, p = {s['p_one']:.3f}.", ""]
+              f"Two nulls, and they give different answers. Against the null "
+              f"that the simulation carries no information, p = {s['p_zero']:.3f}: "
+              "it does. Against the null that it is correctly scaled, "
+              f"p = {s['p_one']:.3f}: it is not.", "",
+              f"A slope below one means the simulation {scale} the size of the "
+              f"effect by roughly a factor of {factor:.1f}, while still ordering "
+              "the routes correctly. That is the expected consequence of "
+              "calibrating the price coefficient rather than estimating it, and "
+              "it is the reason this report leans on orderings and deciles "
+              "rather than on levels.", ""]
 
     L += ["## Realised effect by decile of each prediction", "",
           "If a prediction works, the realised effect should climb across its "
