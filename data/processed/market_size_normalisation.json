@@ -1,0 +1,7 @@
+{
+  "form": "potential market = kappa * P_endpoint1 * P_endpoint2 / P_total",
+  "kappa": 2.2462527405699526,
+  "inside_share_target_at_median": 0.5,
+  "median_inside_share_achieved": 0.5,
+  "market_quarters_clipped_at_0.95": 159144
+}

@@ -1,0 +1,95 @@
+{
+  "alpha_per_dollar": 0.010030259839679893,
+  "sigma": 0.0,
+  "n_simulated": 8009,
+  "n_converged": 7932,
+  "median_dp_market": 0.0036058326721488156,
+  "median_dp_merging": 0.011140109895928504,
+  "median_guppi": 0.011713162710069287,
+  "median_diversion": 0.03015613940678125,
+  "median_margin": 0.42079259178406675,
+  "harm_annual_total": 1020124000.0270071,
+  "by_merger": {
+    "DL_NW": {
+      "label": "Delta / Northwest",
+      "n": 3612,
+      "median_dp_market": 0.006713820199709106,
+      "median_guppi": 0.01637477739921695,
+      "harm_annual": 181442875.0793951
+    },
+    "UA_CO": {
+      "label": "United / Continental",
+      "n": 1772,
+      "median_dp_market": 0.002307346697068076,
+      "median_guppi": 0.010019480495822455,
+      "harm_annual": 109102821.8408012
+    },
+    "WN_FL": {
+      "label": "Southwest / AirTran",
+      "n": 326,
+      "median_dp_market": 0.0034641903068591976,
+      "median_guppi": 0.013804467890545971,
+      "harm_annual": 397951597.57802445
+    },
+    "AA_US": {
+      "label": "American / US Airways",
+      "n": 2203,
+      "median_dp_market": 0.002303262622627626,
+      "median_guppi": 0.008216771283938147,
+      "harm_annual": 259686354.59628454
+    },
+    "AS_VX": {
+      "label": "Alaska / Virgin America",
+      "n": 19,
+      "median_dp_market": 0.001746800493150713,
+      "median_guppi": 0.008497574373628488,
+      "harm_annual": 71940350.93250196
+    }
+  },
+  "sensitivity": [
+    {
+      "target_elasticity": -1.5,
+      "sigma": 0.0,
+      "median_dp_market": 0.006009721124021606,
+      "median_dp_merging": 0.01856684984291032,
+      "median_guppi": 0.01952193785011548,
+      "median_margin": 0.701320986306778,
+      "harm_annual_total": 1700206667.1076832,
+      "rank_corr_with_main": 0.9999999999999998,
+      "n": 7932
+    },
+    {
+      "target_elasticity": -4.0,
+      "sigma": 0.0,
+      "median_dp_market": 0.002253645415935011,
+      "median_dp_merging": 0.006962568671780545,
+      "median_guppi": 0.007320726693793305,
+      "median_margin": 0.26299536986504174,
+      "harm_annual_total": 637577499.8116627,
+      "rank_corr_with_main": 0.9999999999999998,
+      "n": 7932
+    },
+    {
+      "target_elasticity": -2.5,
+      "sigma": 0.25,
+      "median_dp_market": 0.0069892589200090645,
+      "median_dp_merging": 0.019831736044704857,
+      "median_guppi": 0.020654466163547942,
+      "median_margin": 0.42607279660421504,
+      "harm_annual_total": 1647833558.3273163,
+      "rank_corr_with_main": 0.9641703711493697,
+      "n": 7930
+    },
+    {
+      "target_elasticity": -2.5,
+      "sigma": 0.5,
+      "median_dp_market": 0.010396054836992701,
+      "median_dp_merging": 0.02720861510098964,
+      "median_guppi": 0.028209478646517405,
+      "median_margin": 0.4357787584202416,
+      "harm_annual_total": 2560181573.9372587,
+      "rank_corr_with_main": 0.9221116672308314,
+      "n": 7920
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "estimated": {
+    "alpha_per_100": 0.5034987742000451,
+    "alpha_se": 0.2402862559356725,
+    "alpha_per_dollar": 0.005034987742000451,
+    "ci_lo": 0.032512970926805385,
+    "ci_hi": 0.9744845774732848,
+    "median_elasticity": -1.2549494784975426,
+    "first_stage_F": 23.185720921534394,
+    "admissible_for_bertrand": true
+  },
+  "ols": {
+    "alpha_per_100": 0.18267293672829082,
+    "median_elasticity": -0.45530459740841733
+  },
+  "nested_logit_all_instruments": {
+    "alpha": -0.022383760133509123,
+    "sigma": 0.4375871342573468
+  },
+  "instrument_audit": [
+    {
+      "instrument": "none (OLS)",
+      "kind": "-",
+      "alpha": 0.18267293672829082,
+      "first_stage_F": NaN,
+      "elasticity": -0.45530459740841733,
+      "valid": null
+    },
+    {
+      "instrument": "z_fuel_distance",
+      "kind": "cost",
+      "alpha": 0.5034987742000451,
+      "first_stage_F": 23.185720921534394,
+      "elasticity": -1.2549494784975426,
+      "valid": true
+    },
+    {
+      "instrument": "z_hausman",
+      "kind": "cost",
+      "alpha": -0.2522499025373023,
+      "first_stage_F": 6582.848475128671,
+      "elasticity": 0.6287222528857054,
+      "valid": false
+    },
+    {
+      "instrument": "z_n_rivals",
+      "kind": "structure",
+      "alpha": -1.844595590568481,
+      "first_stage_F": 1512.6041343205823,
+      "elasticity": 4.597576782784895,
+      "valid": false
+    },
+    {
+      "instrument": "z_n_nest_rivals",
+      "kind": "structure",
+      "alpha": -3.273288199865537,
+      "first_stage_F": 1175.7115933592022,
+      "elasticity": 8.158532909876245,
+      "valid": false
+    },
+    {
+      "instrument": "z_rival_nonstop",
+      "kind": "structure",
+      "alpha": 0.794423178540791,
+      "first_stage_F": 707.2795415852748,
+      "elasticity": -1.9800662974802463,
+      "valid": true
+    }
+  ],
+  "calibrated": {
+    "alpha_per_100": 1.0030259839679894,
+    "alpha_per_dollar": 0.010030259839679893,
+    "sigma": 0.0,
+    "target_elasticity": -2.5,
+    "alternatives": [
+      {
+        "target_elasticity": -1.5,
+        "sigma": 0.0,
+        "alpha_per_dollar": 0.0060181559038079355
+      },
+      {
+        "target_elasticity": -4.0,
+        "sigma": 0.0,
+        "alpha_per_dollar": 0.01604841574348783
+      },
+      {
+        "target_elasticity": -2.5,
+        "sigma": 0.25,
+        "alpha_per_dollar": 0.008228785797371995
+      },
+      {
+        "target_elasticity": -2.5,
+        "sigma": 0.5,
+        "alpha_per_dollar": 0.006080062352285393
+      }
+    ]
+  },
+  "fare_unit": 100.0,
+  "nobs": 2195079,
+  "n_markets": 17071,
+  "median_fare": 288.54268154557764
+}
